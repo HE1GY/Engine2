@@ -43,7 +43,7 @@ namespace Engine
 	template<typename T>
 	void Event<T>::RemoveCallback(const Event::Callback& cb)
 	{
-		m_callbacks.erase(std::find(m_callbacks.begin(), m_callbacks.end(), cb));
+		m_callbacks.erase(std::find(m_callbacks.begin(), m_callbacks.end(), cb));//TODO bug
 	}
 
 	template<typename T>

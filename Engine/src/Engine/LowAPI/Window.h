@@ -7,6 +7,9 @@
 
 namespace Engine
 {
+	/**
+	 * API for window interaction
+	 */
 	class Window
 	{
 	public:
@@ -21,6 +24,11 @@ namespace Engine
 			std::string title;
 		};
 
+		/**
+		 * Main way of creating the window
+		 * @param prop
+		 * @return
+		 */
 		static Ref<Window> Create(const WindowsProps& prop = WindowsProps());
 
 		Window() = default;
@@ -29,7 +37,7 @@ namespace Engine
 
 		virtual void OnUpdate() = 0;
 
-		virtual void SetEventCallbacks(const EventsPool* fun) = 0;
+		virtual void SetEventCallbacks(const WindowEvents* fun) = 0;
 
 		virtual void* GetNativeWindow() = 0;
 

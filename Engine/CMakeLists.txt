@@ -12,7 +12,13 @@ set(ENGINE_SRC
         "src/Platform/Windows/WindowsWindow.cpp"
         "src/Engine/Core/Ptrs.h"
         "src/Platform/OpenGL/OpenGLContext.h"
-        "src/Platform/OpenGL/OpenGLContext.cpp")
+        "src/Platform/OpenGL/OpenGLContext.cpp"
+        "src/Engine/Core/Layer.h"
+        "src/Engine/Core/LayerStack.cpp"
+        "src/Engine/Core/LayerStack.h"
+        "src/Engine/LowAPI/Input/InputCodes.h"
+        "src/Engine/LowAPI/Input/Input.h "
+        "src/Platform/Windows/InputWindows.cpp" src/Engine/Core/Time.h src/Engine/Core/Time.cpp)
 
 #target
 add_library(${ENGINE_NAME} STATIC ${ENGINE_SRC})

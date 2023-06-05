@@ -5,6 +5,9 @@
 struct GLFWwindow;
 namespace Engine
 {
+	/**
+	 * Encapsulate OpenGL initialization
+	 */
 	class OpenGLContext : public GraphicContext
 	{
 	public:

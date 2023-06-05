@@ -1,5 +1,7 @@
 #include "Application.h"
 #include "Engine/Log/Log.h"
+#include "Engine/LowAPI/Input/Input.h"
+#include "Time.h"
 
 
 namespace Engine
@@ -10,24 +12,27 @@ namespace Engine
 		m_window->SetVSync(true);
 		m_window->SetEventCallbacks(&m_window_events);
 
-		SubscribeEvents();
-		/*m_window_events.onKeyTyped.AddCallback([](const auto& key)
-		  {
-			  CORE_INFO_LOG(static_cast<char>(key.key_code));
-			  return false;
-		  }
-		);*/
-
+		Input::Init(m_window);
 	}
 
 
 	void Application::Run()
 	{
+		SubscribeEvents();
+
+		float last_frame_time = m_window->GetCurrentTime();
 		while (m_is_running)
 		{
+			Time::s_delta_time = m_window->GetCurrentTime() - last_frame_time;
+			last_frame_time = m_window->GetCurrentTime();
 
-
+			for (const auto& layer: m_layer_stack)
+			{
+				layer->OnUpdate();
+			}
 			m_window->OnUpdate();
+
+			Time::s_delta_time = m_window->GetCurrentTime();
 		}
 	}
 
@@ -49,5 +54,21 @@ namespace Engine
 		return false;
 	}
 
+	void Application::PushLayer(Ref<Layer> layer)
+	{
+		layer->OnAttach(m_window_events);
+		m_layer_stack.Push(layer);
+	}
 
+	void Application::PushOverlayLayer(Ref<Layer> layer)
+	{
+		layer->OnAttach(m_window_events);
+		m_layer_stack.PushOverlay(layer);
+	}
+
+	void Application::RemoveLayer(Ref<Layer> layer)
+	{
+		layer->OnDetach(m_window_events);
+		m_layer_stack.Remove(layer);
+	}
 }

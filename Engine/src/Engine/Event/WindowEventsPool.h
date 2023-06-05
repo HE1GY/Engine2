@@ -53,7 +53,7 @@ namespace Engine
 	};
 
 
-	struct EventsPool
+	struct WindowEvents
 	{
 		Event<WindowResized> onWindowResized;
 		Event<WindowClosed> onWindowClosed;

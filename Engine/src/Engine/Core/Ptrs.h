@@ -2,6 +2,10 @@
 
 #include <memory>
 
+/**
+ * Own pointer count sys
+ */
+
 namespace Engine
 {
 	template<typename T> using Ref = std::shared_ptr<T>;

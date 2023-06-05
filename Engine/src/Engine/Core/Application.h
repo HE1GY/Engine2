@@ -3,11 +3,13 @@
 #include "Engine/Event/WindowEventsPool.h"
 #include "Ptrs.h"
 #include "Engine/LowAPI/Window.h"
+#include "Layer.h"
+#include "LayerStack.h"
 
 namespace Engine
 {
 	/**
-	 * Core app which has main loop
+	 * Core of engine
 	 */
 	class Application
 	{
@@ -18,6 +20,13 @@ namespace Engine
 
 		void Run();
 
+	protected:
+		void PushLayer(Ref<Layer> layer);
+
+		void PushOverlayLayer(Ref<Layer> layer);
+
+		void RemoveLayer(Ref<Layer> layer);
+
 	private:
 		void SubscribeEvents();
 
@@ -27,7 +36,8 @@ namespace Engine
 
 	private:
 		bool m_is_running{ true };
-		EventsPool m_window_events;
+		WindowEvents m_window_events;
 		Ref<Window> m_window;
+		LayerStack m_layer_stack;
 	};
 }

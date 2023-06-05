@@ -22,7 +22,7 @@ namespace Engine
 			return m_native_window;
 		}
 
-		virtual void SetEventCallbacks(const EventsPool* callbacks) override
+		virtual void SetEventCallbacks(const WindowEvents* callbacks) override
 		{
 			m_window_data.callbacks = callbacks;
 		};
@@ -53,7 +53,7 @@ namespace Engine
 		struct WindowData
 		{
 			WindowsProps props;
-			const EventsPool* callbacks;
+			const WindowEvents* callbacks;
 		};
 
 		GLFWwindow* m_native_window;
