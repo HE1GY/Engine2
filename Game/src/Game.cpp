@@ -1,5 +1,5 @@
-#include <Engine.h>
-#include <EntryPoint.h>
+#include <Engine/Engine.h>
+#include <Engine/EntryPoint.h>
 
 
 /**
@@ -9,9 +9,9 @@ class Game : public Engine::Application
 {
 public:
 	Game()
+	  : Engine::Application({ 600, 400, "Game" })
 	{
 		INFO_LOG("Start game");
-		CORE_ASSERT_LOG(false, "Fuck");
 	}
 
 	~Game() override = default;

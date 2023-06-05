@@ -15,40 +15,41 @@ namespace Engine
 
 	struct KeyEvent
 	{
-		int32_t m_key_code;
+		int32_t key_code;
 	};
 
 	struct KeyPress : public KeyEvent
 	{
-		int32_t m_repeated_count;
+		int32_t repeated_count;
 	};
 
 	struct KeyReleased : public KeyEvent
 	{
 	};
 
-	class KeyTyped : public KeyEvent
+	struct KeyTyped
 	{
+		uint32_t key_code;
 	};
 
 	struct MouseMoved
 	{
-		int32_t m_x, m_y;
+		int32_t x, y;
 	};
 
 	struct MouseButtonPressed
 	{
-		int32_t m_key_code;
+		int32_t key_code;
 	};
 
 	struct MouseButtonReleased
 	{
-		int32_t m_key_code;
+		int32_t key_code;
 	};
 	struct MouseScrolled
 	{
-		int32_t m_x_offset;
-		int32_t m_y_offset;
+		int32_t x_offset;
+		int32_t y_offset;
 	};
 
 

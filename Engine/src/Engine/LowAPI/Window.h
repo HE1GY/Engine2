@@ -1,7 +1,8 @@
 #pragma once
 
 #include <string>
-#include <functional>
+#include "Engine/Event/WindowEventsPool.h"
+#include <Engine/Core/Ptrs.h>
 
 
 namespace Engine
@@ -20,10 +21,7 @@ namespace Engine
 			std::string title;
 		};
 
-		using EventCallbackFn = std::function<void(const Event&)>;
-
-
-		static Window* CreateWindow(const WindowsProps& prop = WindowsProps());
+		static Ref<Window> Create(const WindowsProps& prop = WindowsProps());
 
 		Window() = default;
 
@@ -31,7 +29,7 @@ namespace Engine
 
 		virtual void OnUpdate() = 0;
 
-		virtual void SetEventCallback(const EventCallbackFn& fun) = 0;
+		virtual void SetEventCallbacks(const EventsPool* fun) = 0;
 
 		virtual void* GetNativeWindow() = 0;
 

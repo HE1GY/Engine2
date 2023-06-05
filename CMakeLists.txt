@@ -8,12 +8,16 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+
 #for cmake scripts
 set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake/")
 
 #dependencies
 include(CPM)
 cpmaddpackage("gh:gabime/spdlog#v1.11.0")
+cpmaddpackage("gh:glfw/glfw#3.3.8")
+cpmaddpackage("gh:HE1GY/glad#v1.0.1")
 
 
 #projects modules
