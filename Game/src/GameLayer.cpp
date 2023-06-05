@@ -19,7 +19,6 @@ namespace Game
 
 	void GameLayer::OnUpdate()
 	{
-
 		/*if (Engine::Input::IsKeyPress(Engine::KeyCode::D))
 		{
 			INFO_LOG(">>");

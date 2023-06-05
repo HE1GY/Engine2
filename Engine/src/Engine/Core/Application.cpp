@@ -2,6 +2,7 @@
 #include "Engine/Log/Log.h"
 #include "Engine/LowAPI/Input/Input.h"
 #include "Time.h"
+#include "Engine/Layer/SceneLayer.h"
 
 
 namespace Engine
@@ -13,11 +14,14 @@ namespace Engine
 		m_window->SetEventCallbacks(&m_window_events);
 
 		Input::Init(m_window);
+
+		PushLayer(CreateRef<SceneLayer>("SceneLayer"));
 	}
 
 
 	void Application::Run()
 	{
+		//in run because to subscribe on events game layers
 		SubscribeEvents();
 
 		float last_frame_time = m_window->GetCurrentTime();
