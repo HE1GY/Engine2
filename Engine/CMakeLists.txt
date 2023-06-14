@@ -36,7 +36,10 @@ set(ENGINE_SRC
         "src/Platform/OpenGL/OpenGLBuffer.cpp"
         "src/Platform/OpenGL/OpenGLVertexArray.h"
         "src/Platform/OpenGL/OpenGLVertexArray.cpp"
-        "src/Platform/OpenGL/OpenGLRendererCommand.cpp")
+        "src/Platform/OpenGL/OpenGLRendererCommand.cpp"
+        "src/Platform/OpenGL/OpenGLShader.cpp"
+        "src/Engine/LowAPI/Renderer/Texture.cpp"
+        "src/Platform/OpenGL/OpenGLTexture2D.cpp")
 
 #target
 add_library(${ENGINE_NAME} STATIC ${ENGINE_SRC})
@@ -47,3 +50,4 @@ target_link_libraries(${ENGINE_NAME} PUBLIC spdlog::spdlog)
 target_link_libraries(${ENGINE_NAME} PUBLIC glfw)
 target_link_libraries(${ENGINE_NAME} PUBLIC glad)
 target_link_libraries(${ENGINE_NAME} PUBLIC glm::glm)
+target_link_libraries(${ENGINE_NAME} PUBLIC stb_image)

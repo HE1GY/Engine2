@@ -10,8 +10,6 @@ namespace Engine
 	class Renderer2D
 	{
 	public :
-
-
 		static const uint32_t k_max_quads = 10000;
 		static const uint32_t k_max_vertices = k_max_quads * 4;
 		static const uint32_t k_max_indices = k_max_quads * 6;
@@ -48,9 +46,11 @@ namespace Engine
 
 		static void SetLineWidth(float width);
 
-		static Statistics GetStats();
+		*/
+/*static Statistics GetStats();
 
-		static void ResetStats();
+		static void ResetStats();*//*
+
 
 	private:
 		static Renderer2DData* s_data;

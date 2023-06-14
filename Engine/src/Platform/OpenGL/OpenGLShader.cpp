@@ -1,9 +1,8 @@
-#include "pch.h"
 
-#include "Engine/Core/Core.h"
 #include "OpenGLShader.h"
-
 #include <glm/gtc/type_ptr.hpp>
+#include "Engine/Log/Log.h"
+#include <array>
 
 #include <fstream>
 
@@ -15,15 +14,13 @@ namespace Engine
 			return GL_VERTEX_SHADER;
 		if (type == "fragment" || type == "pixel")
 			return GL_FRAGMENT_SHADER;
-
-		CORE_ASSERT(false, "Unknown shader type!");
+		CORE_ASSERT_LOG(false, "Unknown shader type!");
 		return 0;
 	}
 
 	OpenGLShader::OpenGLShader(const std::string& name, const std::string& vertex_src, const std::string& fragment_src)
-			:m_name{ name }
+	  : m_name{ name }
 	{
-		PROFILER_FUNCTION();
 
 		std::unordered_map<GLuint, std::string> shaders;
 		shaders[GL_VERTEX_SHADER] = vertex_src;
@@ -33,8 +30,6 @@ namespace Engine
 
 	OpenGLShader::OpenGLShader(const std::string& src_path)
 	{
-		PROFILER_FUNCTION();
-
 		std::string src = ReadFile(src_path);
 		auto shaders = PreProcess(src);
 		Compile(shaders);
@@ -45,16 +40,15 @@ namespace Engine
 		auto count = last_dot == std::string::npos ? src_path.size() - last_slash : last_dot - last_slash;
 		m_name = src_path.substr(last_slash, count);
 	}
+
 	OpenGLShader::~OpenGLShader()
 	{
-		PROFILER_FUNCTION();
-
 		glDeleteProgram(m_renderer_id);
 	}
 
 	std::string OpenGLShader::ReadFile(const std::string& path)
 	{
-		PROFILER_FUNCTION();
+
 
 		std::ifstream in(path.c_str(), std::ios_base::binary | std::ios_base::in);
 		std::string result;
@@ -67,13 +61,13 @@ namespace Engine
 		}
 		else
 		{
-			CORE_ERROR("Shader file can't be opened {0}", path);
+			CORE_ERROR_LOG("Shader file can't be opened {0}", path);
 		}
 		return result;
 	}
+
 	std::unordered_map<GLenum, std::string> OpenGLShader::PreProcess(const std::string& src)
 	{
-		PROFILER_FUNCTION();
 
 		std::unordered_map<GLenum, std::string> shaderSources;
 
@@ -83,31 +77,30 @@ namespace Engine
 		while (pos != std::string::npos)
 		{
 			size_t eol = src.find_first_of("\r\n", pos); // End of shader type declaration line
-			CORE_ASSERT((eol != std::string::npos), "Syntax error");
+			CORE_ASSERT_LOG((eol != std::string::npos), "Syntax error");
 			size_t begin = pos + typeTokenLength + 1; // Start of shader type name (after "#type " keyword)
 			std::string type = src.substr(begin, eol - begin);
-			CORE_ASSERT(ShaderTypeFromString(type), "Invalid shader type specified");
+			CORE_ASSERT_LOG(ShaderTypeFromString(type), "Invalid shader type specified");
 
 			size_t nextLinePos =
-					src.find_first_not_of("\r\n", eol); // Start of shader code after shader type declaration line
-			CORE_ASSERT((nextLinePos != std::string::npos), "Syntax error");
+			  src.find_first_not_of("\r\n", eol); // Start of shader code after shader type declaration line
+			CORE_ASSERT_LOG((nextLinePos != std::string::npos), "Syntax error");
 			pos = src.find(typeToken, nextLinePos); // Start of next shader type declaration line
 
 			shaderSources[ShaderTypeFromString(type)] =
-					(pos == std::string::npos) ? src.substr(nextLinePos) : src.substr(nextLinePos, pos - nextLinePos);
+			  (pos == std::string::npos) ? src.substr(nextLinePos) : src.substr(nextLinePos, pos - nextLinePos);
 		}
 
 		return shaderSources;
 	}
+
 	void OpenGLShader::Compile(std::unordered_map<GLenum, std::string>& shaders)
 	{
-		PROFILER_FUNCTION();
-
 		m_renderer_id = glCreateProgram();
-		CORE_ASSERT((shaders.size() >= 2), "too few shaders");
+		CORE_ASSERT_LOG((shaders.size() >= 2), "too few shaders");
 		std::array<GLuint, 2> shaders_id;
 		uint8_t index{ 0 };
-		for (auto src_shader : shaders)
+		for (auto src_shader: shaders)
 		{
 			GLenum type = src_shader.first;
 			const std::string& src = src_shader.second;
@@ -132,9 +125,9 @@ namespace Engine
 				// We don't need the shader anymore.
 				glDeleteShader(shader);
 
-				CORE_ERROR("Shader doesn't compile");
-				CORE_ERROR(infoLog.data());
-				CORE_WARN(src);
+				CORE_ERROR_LOG("Shader doesn't compile");
+				CORE_ERROR_LOG(infoLog.data());
+				CORE_WARN_LOG(src);
 				ASSERT(false);
 			}
 			glAttachShader(m_renderer_id, shader);
@@ -157,17 +150,17 @@ namespace Engine
 			// We don't need the program anymore.
 			glDeleteProgram(m_renderer_id);
 			// Don't leak shaders either.
-			for (auto shader_id : shaders_id)
+			for (auto shader_id: shaders_id)
 			{
 				glDeleteShader(shader_id);
 			}
 
-			CORE_ERROR("Shader program doesn't linked");
-			CORE_ERROR(infoLog.data());
+			CORE_ERROR_LOG("Shader program doesn't linked");
+			CORE_ERROR_LOG(infoLog.data());
 			ASSERT(false);
 		}
 
-		for (auto shader_id : shaders_id)
+		for (auto shader_id: shaders_id)
 		{
 			glDetachShader(m_renderer_id, shader_id);
 		}
@@ -207,37 +200,39 @@ namespace Engine
 	{
 		ASSERT(m_renderer_id);
 		GLint location = glGetUniformLocation(m_renderer_id, name.c_str());
-		if (location < 0)WARN("Uniform {0} not found", name);
+		if (location < 0)CORE_WARN_LOG("Uniform {0} not found", name);
 		glUniform1iv(location, count, value);
 	}
 
 	void OpenGLShader::Bind() const
 	{
-		PROFILER_FUNCTION();
+
 
 		glUseProgram(m_renderer_id);
 	}
+
 	void OpenGLShader::SetMat4(const std::string& name, const glm::mat4& mat)
 	{
-		PROFILER_FUNCTION();
 
 		UploadUniform(name, mat);
 	}
+
 	void OpenGLShader::SetVec4(const std::string& name, const glm::vec4& vec)
 	{
-		PROFILER_FUNCTION();
+
 
 		UploadUniform(name, vec);
 	}
+
 	void OpenGLShader::SetInt(const std::string& name, const int value)
 	{
-		PROFILER_FUNCTION();
+
 
 		UploadUniform(name, value);
 	}
+
 	void OpenGLShader::SetIntArray(const std::string& name, const int* value, uint32_t count)
 	{
-		PROFILER_FUNCTION();
 
 		UploadUniform(name, value, count);
 	}

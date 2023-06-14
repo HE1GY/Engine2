@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Engine/LowAPI//Renderer/Shader.h"
+#include "Engine/LowAPI/Renderer/Shader.h"
 #include "glad/glad.h"
 #include "glm/glm.hpp"
 #include <string>
@@ -45,9 +45,9 @@ namespace Engine
 	private:
 		std::string ReadFile(const std::string& path);
 
-		std::unordered_map <GLenum, std::string> PreProcess(const std::string& src);
+		std::unordered_map<GLenum, std::string> PreProcess(const std::string& src);
 
-		void Compile(std::unordered_map <GLenum, std::string>& shaders);
+		void Compile(std::unordered_map<GLenum, std::string>& shaders);
 
 	private:
 		uint32_t m_renderer_id;

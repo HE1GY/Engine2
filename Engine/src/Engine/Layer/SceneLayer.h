@@ -2,6 +2,8 @@
 
 
 #include "Engine/Core/Layer.h"
+#include "Engine/LowAPI/Renderer/VertexArray.h"
+#include "Engine/LowAPI/Renderer/Shader.h"
 
 namespace Engine
 {
@@ -21,5 +23,8 @@ namespace Engine
 
 		virtual void OnUpdate() override;
 
+	private:
+		Ref<VertexArray> m_vao;
+		Ref<Shader> m_shader;
 	};
 }
