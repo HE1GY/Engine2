@@ -6,7 +6,7 @@ set(ENGINE_SRC
         "src/Engine/Log/Log.cpp"
         "src/Engine/Log/Log.h"
         "src/Engine/Event/Event.h"
-        "src/Engine/Event/WindowEventsPool.h"
+        "src/Engine/Event/WindowEvents.h"
         "src/Engine/LowAPI/Window.h"
         "src/Platform/Windows/WindowsWindow.h"
         "src/Platform/Windows/WindowsWindow.cpp"
@@ -39,7 +39,8 @@ set(ENGINE_SRC
         "src/Platform/OpenGL/OpenGLRendererCommand.cpp"
         "src/Platform/OpenGL/OpenGLShader.cpp"
         "src/Engine/LowAPI/Renderer/Texture.cpp"
-        "src/Platform/OpenGL/OpenGLTexture2D.cpp")
+        "src/Platform/OpenGL/OpenGLTexture2D.cpp"
+        "src/Engine/LowAPI/Renderer/Texture.h")
 
 #target
 add_library(${ENGINE_NAME} STATIC ${ENGINE_SRC})

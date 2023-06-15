@@ -2,22 +2,17 @@
 
 #include <Engine/Core/Layer.h>
 
-namespace Game
-{
-	class GameLayer : public Engine::Layer
-	{
-	public :
-		GameLayer(const std::string& name)
-		  : Layer{ name }
-		{
-		}
+namespace Game {
+    class GameLayer : public Engine::Layer {
+    public:
+        explicit GameLayer(const std::string& name) : Layer{name} {}
 
-		~GameLayer() = default;
+        ~GameLayer() override = default;
 
-		virtual void OnAttach(Engine::WindowEvents& events) override;
+        void OnAttach(Engine::WindowEvents& events) override;
 
-		virtual void OnDetach(Engine::WindowEvents& events) override;
+        void OnDetach(Engine::WindowEvents& events) override;
 
-		virtual void OnUpdate() override;
-	};
-}
+        void OnUpdate() override;
+    };
+} // namespace Game

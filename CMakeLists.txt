@@ -47,9 +47,6 @@ cpmaddpackage("gh:HE1GY/glad#v1.0.1")
 cpmaddpackage("gh:g-truc/glm#0.9.9.8")
 cpmaddpackage("gh:HE1GY/stb_image#v1.0.0")
 
-
 #projects modules
 add_subdirectory(Engine)
 add_subdirectory(Game)
-
-

@@ -1,43 +1,41 @@
 #pragma once
 
-#include "Engine/Event/WindowEventsPool.h"
-#include "Ptrs.h"
+#include "Engine/Event/WindowEvents.h"
 #include "Engine/LowAPI/Window.h"
 #include "Layer.h"
 #include "LayerStack.h"
+#include "Ptrs.h"
 
-namespace Engine
-{
-	/**
-	 * Core of engine
-	 */
-	class Application
-	{
-	public:
-		Application(const Window::WindowsProps& window_props);
+namespace Engine {
+    /**
+     * Core of engine
+     */
+    class Application {
+    public:
+        Application(const Window::WindowsProps& window_props);
 
-		virtual ~Application() = default;
+        virtual ~Application() = default;
 
-		void Run();
+        void Run();
 
-	protected:
-		void PushLayer(Ref<Layer> layer);
+    protected:
+        void PushLayer(Ref<Layer> layer);
 
-		void PushOverlayLayer(Ref<Layer> layer);
+        void PushOverlayLayer(Ref<Layer> layer);
 
-		void RemoveLayer(Ref<Layer> layer);
+        void RemoveLayer(Ref<Layer> layer);
 
-	private:
-		void SubscribeEvents();
+    private:
+        void SubscribeEvents();
 
-		bool OnWindowClosed(const WindowClosed& wc);
+        void OnWindowClosed();
 
-		bool OnWindowsResized(const WindowResized& wr);
+        void OnWindowsResized(const WindowResized& wr);
 
-	private:
-		bool m_is_running{ true };
-		WindowEvents m_window_events;
-		Ref<Window> m_window;
-		LayerStack m_layer_stack;
-	};
-}
+    private:
+        bool m_is_running{true};
+        WindowEvents m_window_events;
+        Ref<Window> m_window;
+        LayerStack m_layer_stack;
+    };
+} // namespace Engine
