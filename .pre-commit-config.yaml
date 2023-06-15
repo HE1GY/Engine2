@@ -8,9 +8,11 @@ repos:
         exclude: .idea docs cmake .github tools
       - id: end-of-file-fixer
       - id: trailing-whitespace
+        exclude: .idea docs cmake .github tools
 
   - repo: https://github.com/pocc/pre-commit-hooks
     rev: v1.3.5
     hooks:
       - id: clang-format
         args: [ '-i' ]
+        exclude: .idea docs cmake .github tools
