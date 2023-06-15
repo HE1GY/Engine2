@@ -30,7 +30,6 @@ namespace Engine
 		{
 		}
 
-
 	private:
 		std::string m_name;
 	};
