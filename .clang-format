@@ -52,7 +52,7 @@ AlignTrailingComments:
 # AllowShortBlocksOnASingleLine: Never
 # AllowShortCaseLabelsOnASingleLine: false
 # AllowShortEnumsOnASingleLine: true
-#AllowShortFunctionsOnASingleLine: true
+AllowShortFunctionsOnASingleLine: All
 # AllowShortIfStatementsOnASingleLine: Never
 # AllowShortLambdasOnASingleLine: All
 # AllowShortLoopsOnASingleLine: false
