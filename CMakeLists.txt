@@ -8,8 +8,11 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
-set(ENABLE_WARNINGS "Enable warnings" ON)
-set(ENABLE_WARNINGS_AS_ERRORS "Enable warnings as errors" OFF)
+option(ENABLE_WARNINGS "Enable warnings" ON)
+option(ENABLE_WARNINGS_AS_ERRORS "Enable warnings as errors" OFF)
+
+option(ENABLE_SANITIZE_ADDR "Enable runtime address sanitizer" ON)
+option(ENABLE_SANITIZE_UNDEF "Enable runtime undefined sanitizer" ON)
 
 
 #for cmake scripts
@@ -22,6 +25,11 @@ include(Docs)
 if (ENABLE_WARNINGS)
     include(Warnings)
 endif ()
+
+if (ENABLE_SANITIZE_ADDR OR ENABLE_SANITIZE_UNDEF)
+    include(Sanitizer)
+endif ()
+
 
 cpmaddpackage("gh:gabime/spdlog#v1.11.0")
 cpmaddpackage("gh:glfw/glfw#3.3.8")
