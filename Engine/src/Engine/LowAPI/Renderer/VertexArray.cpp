@@ -1,4 +1,3 @@
-
 #include "VertexArray.h"
 
 #include "Platform/OpenGL/OpenGLVertexArray.h"

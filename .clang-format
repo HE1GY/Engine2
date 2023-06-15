@@ -46,7 +46,7 @@ AlignOperands: AlignAfterOperator
 #   Kind:            Always
 #   OverEmptyLines:  0
 AlignTrailingComments:
-  Kind: Never
+#Kind: Never
 # AllowAllArgumentsOnNextLine: true
 # AllowAllParametersOfDeclarationOnNextLine: true
 # AllowShortBlocksOnASingleLine: Never
