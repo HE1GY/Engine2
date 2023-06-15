@@ -60,3 +60,7 @@ endif ()
 if (${ENABLE_LTO})
     target_enable_lto(${ENGINE_NAME})
 endif ()
+
+if (${ENABLE_CLANG_TIDY})
+    add_clang_tidy_msvc_to_target(${ENGINE_NAME})
+endif ()
