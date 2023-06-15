@@ -1,7 +1,8 @@
 all: prepare
 
 install_min:
-	sudo apt-get install gcc g++ cmake make doxygen libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev
+	sudo apt-get install gcc g++ cmake make doxygen
+	sudo apt install libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev #for glfw
 
 install_tests: install_min
 	sudo apt-get install gcovr lcov
