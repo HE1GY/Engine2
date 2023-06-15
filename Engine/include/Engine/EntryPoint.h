@@ -8,13 +8,11 @@ Engine::Application* CreateApplication();
  * Program entry point
  * @return status code
  */
-int main()
-{
-	Engine::Log::Init();
+int main() {
+    Engine::Log::Init();
 
-	Engine::Application* app = CreateApplication();
-	app->Run();
-	delete app;
-	return 0;
+    Engine::Application* app = CreateApplication();
+    app->Run();
+    delete app;
+    return 0;
 }
-

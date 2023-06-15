@@ -35,11 +35,9 @@ namespace Engine {
     }
 
     void Application::SubscribeEvents() {
-
         m_window_events.onWindowClosed.AddCallback(MEM_FN_NOARGS_TO_LMD(OnWindowClosed));
         m_window_events.onWindowResized.AddCallback(MEM_FN_TO_LMD(OnWindowsResized));
     }
-
     void Application::OnWindowClosed() {
         m_is_running = false;
     }

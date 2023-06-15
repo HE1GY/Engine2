@@ -1,49 +1,47 @@
 #pragma once
 
 #include "Engine/Core/Ptrs.h"
-#include "glm/glm.hpp"
 #include <string>
 #include <unordered_map>
 
-namespace Engine
-{
-	class Shader
-	{
-	public:
-		static Ref<Shader>
-		Create(const std::string& name, const std::string& vertex_src, const std::string& fragment_src);
+#include "glm/glm.hpp"
 
-		static Ref<Shader> Create(const std::string& src_path);
+namespace Engine {
+    class Shader {
+    public:
+        static Ref<Shader> Create(
+            const std::string& name, const std::string& vertex_src, const std::string& fragment_src);
 
-		virtual ~Shader() = default;
+        static Ref<Shader> Create(const std::string& src_path);
 
-		virtual void Bind() const = 0;
+        virtual ~Shader() = default;
 
-		virtual const std::string& get_name() const = 0;
+        virtual void Bind() const = 0;
 
-		virtual void SetMat4(const std::string& name, const glm::mat4& mat) = 0;
+        virtual const std::string& get_name() const = 0;
 
-		virtual void SetVec4(const std::string& name, const glm::vec4& vec) = 0;
+        virtual void SetMat4(const std::string& name, const glm::mat4& mat) = 0;
 
-		virtual void SetInt(const std::string& name, const int value) = 0;
+        virtual void SetVec4(const std::string& name, const glm::vec4& vec) = 0;
 
-		virtual void SetIntArray(const std::string& name, const int* value, uint32_t count) = 0;
-	};
+        virtual void SetInt(const std::string& name, const int value) = 0;
 
-	class ShaderLibrary
-	{
-	public:
-		void Add(const Ref<Shader>& shader);
+        virtual void SetIntArray(const std::string& name, const int* value, uint32_t count) = 0;
+    };
 
-		void Add(const std::string& name, const Ref<Shader>& shader);
+    class ShaderLibrary {
+    public:
+        void Add(const Ref<Shader>& shader);
 
-		Ref<Shader> Load(const std::string& src_path);
+        void Add(const std::string& name, const Ref<Shader>& shader);
 
-		Ref<Shader> Load(const std::string& name, const std::string& src_path);
+        Ref<Shader> Load(const std::string& src_path);
 
-		Ref<Shader> Get(const std::string& name);
+        Ref<Shader> Load(const std::string& name, const std::string& src_path);
 
-	private:
-		std::unordered_map<std::string, Ref<Shader>> m_shaders;
-	};
+        Ref<Shader> Get(const std::string& name);
+
+    private:
+        std::unordered_map<std::string, Ref<Shader>> m_shaders;
+    };
 } // namespace Engine
