@@ -5,11 +5,9 @@ repos:
     hooks:
       - id: check-yaml
       - id: check-json
-        exclude: .idea | docs | cmake | .github | tools
       - id: end-of-file-fixer
-        exclude: .idea | docs | cmake | .github | tools
+        exclude: .idea | docs/ | cmake | .github | tools
       - id: trailing-whitespace
-        exclude: .idea | docs | cmake | .github | tools
 
   - repo: https://github.com/pocc/pre-commit-hooks
     rev: v1.3.5
