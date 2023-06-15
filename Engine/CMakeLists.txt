@@ -52,7 +52,11 @@ target_link_libraries(${ENGINE_NAME} PUBLIC glad)
 target_link_libraries(${ENGINE_NAME} PUBLIC glm::glm)
 target_link_libraries(${ENGINE_NAME} PUBLIC stb_image)
 
-#Warnings
-if (ENABLE_WARNINGS)
+#addition options
+if (${ENABLE_WARNINGS})
     target_set_warnings(${ENGINE_NAME} ${ENABLE_WARNINGS_AS_ERRORS})
+endif ()
+
+if (${ENABLE_LTO})
+    target_enable_lto(${ENGINE_NAME})
 endif ()

@@ -14,23 +14,27 @@ option(ENABLE_WARNINGS_AS_ERRORS "Enable warnings as errors" OFF)
 option(ENABLE_SANITIZE_ADDR "Enable runtime address sanitizer" ON)
 option(ENABLE_SANITIZE_UNDEF "Enable runtime undefined sanitizer" ON)
 
+option(ENABLE_LTO "Enable link time optimization" ON)
 
-#for cmake scripts
+
+#cmake scripts
 set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake/")
-
-#dependencies
 include(CPM)
 include(Docs)
 
-if (ENABLE_WARNINGS)
+if (${ENABLE_WARNINGS})
     include(Warnings)
 endif ()
 
-if (ENABLE_SANITIZE_ADDR OR ENABLE_SANITIZE_UNDEF)
+if (${ENABLE_SANITIZE_ADDR} OR ${ENABLE_SANITIZE_UNDEF})
     include(Sanitizer)
 endif ()
 
+if (${ENABLE_LTO})
+    include(LTO)
+endif ()
 
+#dependencies
 cpmaddpackage("gh:gabime/spdlog#v1.11.0")
 cpmaddpackage("gh:glfw/glfw#3.3.8")
 cpmaddpackage("gh:HE1GY/glad#v1.0.1")
