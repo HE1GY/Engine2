@@ -6,7 +6,7 @@ repos:
       - id: check-yaml
       - id: check-json
       - id: end-of-file-fixer
-        exclude: '^docs/'
+        exclude: ^docs/ | ^.idea/ | ^docs/ | ^.github/ | ^cmake/
       - id: trailing-whitespace
 
   - repo: https://github.com/pocc/pre-commit-hooks
