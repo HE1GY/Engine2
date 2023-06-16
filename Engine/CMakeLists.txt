@@ -24,23 +24,22 @@ set(ENGINE_SRC
         "src/Engine/Layer/SceneLayer.cpp"
         "src/Engine/Layer/SceneLayer.h"
         "src/Engine/LowAPI/Renderer/Buffer.h"
-        "src/Engine/LowAPI/Renderer/Buffer.cpp"
         "src/Engine/LowAPI/Renderer/Renderer2D.cpp"
         "src/Engine/LowAPI/Renderer/Renderer2D.h"
         "src/Engine/LowAPI/Renderer/RendererCommand.h"
-        "src/Engine/LowAPI/Renderer/Shader.cpp"
         "src/Engine/LowAPI/Renderer/Shader.h"
-        "src/Engine/LowAPI/Renderer/VertexArray.cpp"
         "src/Engine/LowAPI/Renderer/VertexArray.h"
         "src/Platform/OpenGL/OpenGLBuffer.h"
         "src/Platform/OpenGL/OpenGLBuffer.cpp"
         "src/Platform/OpenGL/OpenGLVertexArray.h"
         "src/Platform/OpenGL/OpenGLVertexArray.cpp"
-        "src/Platform/OpenGL/OpenGLRendererCommand.cpp"
+        "src/Platform/OpenGL/OpenGLCommand.cpp"
         "src/Platform/OpenGL/OpenGLShader.cpp"
-        "src/Engine/LowAPI/Renderer/Texture.cpp"
         "src/Platform/OpenGL/OpenGLTexture2D.cpp"
-        "src/Engine/LowAPI/Renderer/Texture.h")
+        "src/Engine/LowAPI/Renderer/Texture.h"
+        "src/Engine/LowAPI/Renderer/GraphicObjectFactory.h"
+        "src/Platform/OpenGL/OpenGLObjectFactory.cpp"
+        "src/Platform/OpenGL/OpenGLObjectFactory.h")
 
 #target
 add_library(${ENGINE_NAME} STATIC ${ENGINE_SRC})

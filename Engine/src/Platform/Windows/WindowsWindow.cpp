@@ -20,17 +20,15 @@ namespace Engine {
          * Low level Window API implementation
          * @param prop  windows prop
          * @return created
-     * window
+
+     * * window
 
      */
-    Ref<Window> Window::Create(const Window::WindowsProps& prop) {
-        return CreateRef<WindowsWindow>(prop);
-    }
+    Ref<Window> Window::Create(const Window::WindowsProps& prop) { return CreateRef<WindowsWindow>(prop); }
 
 
     WindowsWindow::WindowsWindow(const Window::WindowsProps& props) : m_window_data{props} {
-        int32_t valid = glfwInit();
-        CORE_ASSERT_LOG(valid, "Failed to init glfw");
+        CORE_ASSERT_LOG(glfwInit(), "Failed to init glfw");
 
         m_native_window = glfwCreateWindow(props.width, props.height, props.title.c_str(), NULL, NULL);
         CORE_ASSERT_LOG(m_native_window, "Failed to create  glfw window");
@@ -115,7 +113,5 @@ namespace Engine {
         glfwSwapInterval(m_is_vsync ? 1 : 0);
     }
 
-    float WindowsWindow::GetCurrentTime() {
-        return static_cast<float>(glfwGetTime());
-    }
+    float WindowsWindow::GetCurrentTime() { return static_cast<float>(glfwGetTime()); }
 } // namespace Engine

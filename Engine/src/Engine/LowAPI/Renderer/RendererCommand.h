@@ -10,7 +10,7 @@ namespace Engine {
     public:
         static void Init();
 
-        static void DrawIndex(Ref<VertexArray> vertex_array, uint32_t index_count = 0);
+        static void DrawIndex(Ref<VertexArray>& vertex_array);
 
         static void Clear();
 

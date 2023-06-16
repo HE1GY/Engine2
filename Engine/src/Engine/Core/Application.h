@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Engine/Event/WindowEvents.h"
+#include "Engine/Layer/SceneLayer.h"
 #include "Engine/LowAPI/Window.h"
 #include "Layer.h"
 #include "LayerStack.h"
@@ -37,5 +38,6 @@ namespace Engine {
         WindowEvents m_window_events;
         Ref<Window> m_window;
         LayerStack m_layer_stack;
+        Ref<SceneLayer> m_scene_layer;
     };
 } // namespace Engine

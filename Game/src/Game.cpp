@@ -21,6 +21,4 @@ namespace Game {
  * Method substitutes custom app fo Engine framework
  * @return custom app
  */
-Engine::Application* CreateApplication() {
-    return new Game::Game();
-}
+Engine::Application* CreateApplication() { return new Game::Game(); }

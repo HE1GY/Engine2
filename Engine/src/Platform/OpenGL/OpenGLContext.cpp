@@ -50,6 +50,8 @@ namespace Engine {
         }
     }
 
+    void Framebuffer_size_callback(GLFWwindow* window, int width, int height) { glViewport(0, 0, width, height); }
+
     OpenGLContext::OpenGLContext(GLFWwindow* window_handler) : m_window_handler{window_handler} {
         glfwMakeContextCurrent(window_handler);
         CORE_ASSERT_LOG(gladLoadGLLoader((GLADloadproc) glfwGetProcAddress), "Failed to load OpenGL");
@@ -61,9 +63,13 @@ namespace Engine {
         CORE_INFO_LOG(" VENDOR: {0}", (const char*) glGetString(GL_VENDOR));
         CORE_INFO_LOG(" RENDERER: {0}", (const char*) glGetString(GL_RENDERER));
         CORE_INFO_LOG(" VERSION: {0}", (const char*) glGetString(GL_VERSION));
+
+        int width, height;
+        glfwGetWindowSize(window_handler, &width, &height);
+        glViewport(0, 0, width, height);
+
+        glfwSetFramebufferSizeCallback(window_handler, Framebuffer_size_callback);
     }
 
-    void OpenGLContext::SwapBuffer() {
-        glfwSwapBuffers(m_window_handler);
-    }
+    void OpenGLContext::SwapBuffer() { glfwSwapBuffers(m_window_handler); }
 } // namespace Engine

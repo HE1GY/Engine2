@@ -1,8 +1,8 @@
 #include "Application.h"
 
 #include "Engine/Layer/SceneLayer.h"
-#include "Engine/Log/Log.h"
 #include "Engine/LowAPI/Input/Input.h"
+#include "Engine/LowAPI/Renderer/Renderer2D.h"
 #include "Time.h"
 
 
@@ -12,12 +12,14 @@ namespace Engine {
         m_window->SetEventCallbacks(&m_window_events);
 
         Input::Init(m_window);
+        Renderer2D::Init(Renderer2D::API::OpenGL);
 
-        PushLayer(CreateRef<SceneLayer>("SceneLayer"));
+        m_scene_layer = CreateRef<SceneLayer>("SceneLayer");
+        PushLayer(m_scene_layer);
     }
 
     void Application::Run() {
-        // in run because to subscribe on events game layers
+        // SubscribeEvents in run because to subscribe on events game layers
         SubscribeEvents();
 
         float last_frame_time = m_window->GetCurrentTime();
@@ -38,9 +40,8 @@ namespace Engine {
         m_window_events.onWindowClosed.AddCallback(MEM_FN_NOARGS_TO_LMD(OnWindowClosed));
         m_window_events.onWindowResized.AddCallback(MEM_FN_TO_LMD(OnWindowsResized));
     }
-    void Application::OnWindowClosed() {
-        m_is_running = false;
-    }
+
+    void Application::OnWindowClosed() { m_is_running = false; }
 
     void Application::OnWindowsResized(const WindowResized& wr) {
         // CORE_TRACE_LOG("{0} , {1}", wr.height, wr.width);

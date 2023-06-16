@@ -1,59 +1,38 @@
-/*
 #pragma once
 
 #include <cstdint>
 
-namespace Engine
-{
-	struct Renderer2DData;
+namespace Engine {
 
-	class Renderer2D
-	{
-	public :
-		static const uint32_t k_max_quads = 10000;
-		static const uint32_t k_max_vertices = k_max_quads * 4;
-		static const uint32_t k_max_indices = k_max_quads * 6;
-		static const uint32_t k_max_texture_slot = 32;
+    struct Renderer2DData;
 
-		static void Init();
+    class Renderer2D {
+    public:
+        enum class API { None, OpenGL };
 
-		static void ShutDown();
+        static void Init(API api);
 
-		static void BeginScene(const glm::mat4& projection, const glm::mat4& view);
+        static void ShutDown();
 
-		static void EndScene();
+        // static void* BeginScene(const glm::mat4& projection, const glm::mat4& view);
 
-		static void FlushQuad();
+        // static void EndScene();
 
-		static void FlushCircle();
+        // static void* FlushQuad();
 
-		static void FlushLine();
+        // static void FlushCircle();
 
-		static void DrawQuad(const glm::mat4& transformation,
-		  const Ref <Texture>& texture, const glm::vec4& color, int32_t entity_id);
+        // static void FlushLine();
 
-		static void DrawQuad(const glm::mat4& transformation, const Ref <SubTexture2D>& sub_texture,
-		  const glm::vec4& color, int32_t entity_id);
-
-		static void DrawCircle(const glm::mat4& transformation, const glm::vec4& color, float thickness, float fade,
-		  int32_t entity_id);
-
-		static void
-		DrawLine(const glm::vec3& p0, const glm::vec3& p1, const glm::vec4& color, float thickness, int32_t entity_id);
-
-		static void
-		DrawRect(const glm::mat4& transformation, const glm::vec4& color, float thickness, int32_t entity_id);
-
-		static void SetLineWidth(float width);
-
-		*/
-/*static Statistics GetStats();
-
-		static void ResetStats();*//*
+        static void DrawQuad();
 
 
-	private:
-		static Renderer2DData* s_data;
-	};
-}
-*/
+        // static Statistics GetStats();
+
+        // static void ResetStats();
+
+
+    private:
+        static Renderer2DData data;
+    };
+} // namespace Engine
