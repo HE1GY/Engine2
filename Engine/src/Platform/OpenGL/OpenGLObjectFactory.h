@@ -8,6 +8,7 @@ namespace Engine {
         Ref<IndexBuffer> CreateIndexBuffer(uint32_t* data, size_t count) override;
         Ref<VertexArray> CreateVertexArray() override;
         Ref<Texture> CreateTexture() override;
+        Ref<Texture> CreateTexture(const Texture::Properties& props, const std::string& path) override;
         Ref<Shader> CreateShader(const std::string& path) override;
     };
 } // namespace Engine

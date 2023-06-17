@@ -10,11 +10,17 @@ namespace Engine {
         glBufferData(GL_ARRAY_BUFFER, size, nullptr, GL_DYNAMIC_DRAW);
     }
 
-    OpenGLVertexBuffer::~OpenGLVertexBuffer() { glDeleteBuffers(1, &m_renderer_id); }
+    OpenGLVertexBuffer::~OpenGLVertexBuffer() {
+        glDeleteBuffers(1, &m_renderer_id);
+    }
 
-    void OpenGLVertexBuffer::Bind() { glBindBuffer(GL_ARRAY_BUFFER, m_renderer_id); }
+    void OpenGLVertexBuffer::Bind() {
+        glBindBuffer(GL_ARRAY_BUFFER, m_renderer_id);
+    }
 
-    void OpenGLVertexBuffer::UnBind() { glBindBuffer(GL_ARRAY_BUFFER, 0); }
+    void OpenGLVertexBuffer::UnBind() {
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
+    }
 
     void OpenGLVertexBuffer::SetData(void* data, size_t size) {
         glBindBuffer(GL_ARRAY_BUFFER, m_renderer_id);
@@ -33,10 +39,16 @@ namespace Engine {
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, count * sizeof(uint32_t), data, GL_STATIC_DRAW);
     }
 
-    OpenGLIndexBuffer::~OpenGLIndexBuffer() { glDeleteBuffers(1, &m_renderer_id); }
+    OpenGLIndexBuffer::~OpenGLIndexBuffer() {
+        glDeleteBuffers(1, &m_renderer_id);
+    }
 
-    void OpenGLIndexBuffer::Bind() { glBindBuffer(GL_ARRAY_BUFFER, m_renderer_id); }
+    void OpenGLIndexBuffer::Bind() {
+        glBindBuffer(GL_ARRAY_BUFFER, m_renderer_id);
+    }
 
-    void OpenGLIndexBuffer::UnBind() { glBindBuffer(GL_ARRAY_BUFFER, 0); }
+    void OpenGLIndexBuffer::UnBind() {
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
+    }
 
 } // namespace Engine

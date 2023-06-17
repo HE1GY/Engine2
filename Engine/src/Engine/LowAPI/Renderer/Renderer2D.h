@@ -1,6 +1,7 @@
 #pragma once
 
-#include <cstdint>
+
+#include "glm/vec4.hpp"
 
 namespace Engine {
 
@@ -24,7 +25,7 @@ namespace Engine {
 
         // static void FlushLine();
 
-        static void DrawQuad();
+        static void DrawQuad(const glm::vec4& color);
 
 
         // static Statistics GetStats();

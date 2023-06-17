@@ -148,7 +148,7 @@ namespace Engine {
     void OpenGLShader::UploadUniform(const std::string& name, int value) {
         ASSERT(m_renderer_id);
         GLint location = glGetUniformLocation(m_renderer_id, name.c_str());
-        glUniform1d(location, value);
+        glUniform1i(location, value);
     }
 
     void OpenGLShader::UploadUniform(const std::string& name, const int* value, uint32_t count) {

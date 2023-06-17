@@ -13,14 +13,14 @@ namespace Engine {
         virtual void Bind()   = 0;
         virtual void UnBind() = 0;
 
-        void UploadUniform(const std::string& name, float value);
+        virtual void UploadUniform(const std::string& name, float value) = 0;
 
-        void UploadUniform(const std::string& name, const glm::mat4& value);
+        virtual void UploadUniform(const std::string& name, const glm::mat4& value) = 0;
 
-        void UploadUniform(const std::string& name, const glm::vec4& value);
+        virtual void UploadUniform(const std::string& name, const glm::vec4& value) = 0;
 
-        void UploadUniform(const std::string& name, int value);
+        virtual void UploadUniform(const std::string& name, int value) = 0;
 
-        void UploadUniform(const std::string& name, const int* value, uint32_t count);
+        virtual void UploadUniform(const std::string& name, const int* value, uint32_t count) = 0;
     };
 } // namespace Engine

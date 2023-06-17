@@ -1,8 +1,5 @@
-
-
 #include "OpenGLVertexArray.h"
 
-#include "Engine/Core/Ptrs.h"
 #include "Engine/Log/Log.h"
 #include <algorithm>
 #include <glad/glad.h>
@@ -19,7 +16,7 @@ namespace Engine {
             return 0;
         }
     }
-    static uint32_t GraphicDataTypeCount(GraphicDataType type) {
+    static GLint GraphicDataTypeCount(GraphicDataType type) {
         switch (type) {
         case GraphicDataType::Float2:
             return 2;
@@ -30,7 +27,7 @@ namespace Engine {
             return 0;
         }
     }
-    static uint32_t GraphicDataTypeSize(GraphicDataType type) {
+    static GLint GraphicDataTypeSize(GraphicDataType type) {
         switch (type) {
         case GraphicDataType::Float2:
         case GraphicDataType::Float3:
@@ -41,13 +38,21 @@ namespace Engine {
         }
     }
 
-    OpenGLVertexArray::OpenGLVertexArray() { glCreateVertexArrays(1, &m_renderer_id); }
+    OpenGLVertexArray::OpenGLVertexArray() {
+        glCreateVertexArrays(1, &m_renderer_id);
+    }
 
-    OpenGLVertexArray::~OpenGLVertexArray() { glDeleteVertexArrays(1, &m_renderer_id); }
+    OpenGLVertexArray::~OpenGLVertexArray() {
+        glDeleteVertexArrays(1, &m_renderer_id);
+    }
 
-    void OpenGLVertexArray::Bind() { glBindVertexArray(m_renderer_id); }
+    void OpenGLVertexArray::Bind() {
+        glBindVertexArray(m_renderer_id);
+    }
 
-    void OpenGLVertexArray::UnBind() { glBindVertexArray(0); }
+    void OpenGLVertexArray::UnBind() {
+        glBindVertexArray(0);
+    }
 
 
     void OpenGLVertexArray::SetVertexBuffer(
@@ -55,9 +60,10 @@ namespace Engine {
         glBindVertexArray(m_renderer_id);
         vertex_buffer->Bind();
 
-        size_t stride{0};
+        GLsizei stride{0};
         std::for_each(layout.begin(), layout.end(), [&stride](auto& type) { stride += GraphicDataTypeSize(type); });
-        size_t offset{0};
+
+        uint32_t offset{0};
         uint32_t attrib_count{0};
         for (const auto& attrib : layout) {
             glEnableVertexAttribArray(attrib_count);

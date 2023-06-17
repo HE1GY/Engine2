@@ -50,7 +50,9 @@ namespace Engine {
         }
     }
 
-    void Framebuffer_size_callback(GLFWwindow* window, int width, int height) { glViewport(0, 0, width, height); }
+    void Framebuffer_size_callback(GLFWwindow* window, int width, int height) {
+        glViewport(0, 0, width, height);
+    }
 
     OpenGLContext::OpenGLContext(GLFWwindow* window_handler) : m_window_handler{window_handler} {
         glfwMakeContextCurrent(window_handler);
@@ -71,5 +73,7 @@ namespace Engine {
         glfwSetFramebufferSizeCallback(window_handler, Framebuffer_size_callback);
     }
 
-    void OpenGLContext::SwapBuffer() { glfwSwapBuffers(m_window_handler); }
+    void OpenGLContext::SwapBuffer() {
+        glfwSwapBuffers(m_window_handler);
+    }
 } // namespace Engine

@@ -35,13 +35,13 @@ set(ENGINE_SRC
         "src/Platform/OpenGL/OpenGLVertexArray.cpp"
         "src/Platform/OpenGL/OpenGLCommand.cpp"
         "src/Platform/OpenGL/OpenGLShader.cpp"
-        "src/Platform/OpenGL/OpenGLTexture2D.cpp"
+        "src/Platform/OpenGL/OpenGLTexture.cpp"
         "src/Engine/LowAPI/Renderer/Texture.h"
         "src/Engine/LowAPI/Renderer/GraphicObjectFactory.h"
         "src/Platform/OpenGL/OpenGLObjectFactory.cpp"
         "src/Platform/OpenGL/OpenGLObjectFactory.h"
         "src/Engine/Utils/FileHandler.cpp"
-        "src/Engine/Utils/FileHandler.h")
+        "src/Engine/Utils/FileHandler.h" src/Engine/Utils/ImageLoader.cpp src/Engine/Utils/ImageLoader.h)
 
 #target
 add_library(${ENGINE_NAME} STATIC ${ENGINE_SRC})

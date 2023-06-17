@@ -8,7 +8,8 @@
 namespace Engine {
     class SceneLayer : public Layer {
     public:
-        SceneLayer(const std::string& name) : Layer{name} {}
+        SceneLayer(const std::string& name) : Layer{name} {
+        }
 
         virtual ~SceneLayer() override = default;
 
@@ -21,5 +22,8 @@ namespace Engine {
     private:
         Ref<VertexArray> m_vao;
         Ref<Shader> m_shader;
+
+        glm::vec4 m_color{1, 1, 1, 1};
+        bool m_rising{true};
     };
 } // namespace Engine
