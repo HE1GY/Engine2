@@ -39,7 +39,9 @@ set(ENGINE_SRC
         "src/Engine/LowAPI/Renderer/Texture.h"
         "src/Engine/LowAPI/Renderer/GraphicObjectFactory.h"
         "src/Platform/OpenGL/OpenGLObjectFactory.cpp"
-        "src/Platform/OpenGL/OpenGLObjectFactory.h")
+        "src/Platform/OpenGL/OpenGLObjectFactory.h"
+        "src/Engine/Utils/FileHandler.cpp"
+        "src/Engine/Utils/FileHandler.h")
 
 #target
 add_library(${ENGINE_NAME} STATIC ${ENGINE_SRC})

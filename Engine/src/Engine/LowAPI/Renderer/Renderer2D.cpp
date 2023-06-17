@@ -28,7 +28,10 @@ namespace Engine {
             CORE_ERROR_LOG("None renderer API not supported!");
         }
 
-        data.shader = data.factory->CreateShader("E:\\dev\\Engine2\\Engine\\assets\\Shader.glsl");
+        RendererCommand::Init();
+
+        /** Default resources*/
+        data.shader = data.factory->CreateShader("assets\\quad_shader.glsl");
         data.vao    = data.factory->CreateVertexArray();
         data.vao->Bind();
 
@@ -46,7 +49,9 @@ namespace Engine {
         data.vao->SetIndexCount(ib->GetCount());
         data.vao->UnBind();
     }
-    void Renderer2D::ShutDown() {}
+
+    void Renderer2D::ShutDown() {
+    }
 
     void Renderer2D::DrawQuad() {
         data.shader->Bind();

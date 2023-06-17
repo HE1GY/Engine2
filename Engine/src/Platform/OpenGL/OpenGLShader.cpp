@@ -2,8 +2,8 @@
 #include "OpenGLShader.h"
 
 #include "Engine/Log/Log.h"
+#include "Engine/Utils/FileHandler.h"
 #include <array>
-#include <fstream>
 
 #include <glm/gtc/type_ptr.hpp>
 
@@ -19,68 +19,41 @@ namespace Engine {
         return 0;
     }
 
-    OpenGLShader::OpenGLShader(const std::string& name, const std::string& vertex_src, const std::string& fragment_src)
-        : m_name{name} {
-
-        std::unordered_map<GLuint, std::string> shaders;
-        shaders[GL_VERTEX_SHADER]   = vertex_src;
-        shaders[GL_FRAGMENT_SHADER] = fragment_src;
-        Compile(shaders);
-    }
 
     OpenGLShader::OpenGLShader(const std::string& src_path) {
-        std::string src = ReadFile(src_path);
-        auto shaders    = PreProcess(src);
+        std::string src                                 = Utils::ReadFile(src_path);
+        std::unordered_map<GLenum, std::string> shaders = PreProcess(src);
         Compile(shaders);
-
-        auto last_slash = src_path.find_last_of("/\\");
-        last_slash      = last_slash == std::string::npos ? 0 : last_slash + 1;
-        auto last_dot   = src_path.rfind('.');
-        auto count      = last_dot == std::string::npos ? src_path.size() - last_slash : last_dot - last_slash;
-        m_name          = src_path.substr(last_slash, count);
     }
 
     OpenGLShader::~OpenGLShader() {
         glDeleteProgram(m_renderer_id);
     }
 
-    std::string OpenGLShader::ReadFile(const std::string& path) {
-
-
-        std::ifstream in(path.c_str(), std::ios_base::binary | std::ios_base::in);
-        std::string result;
-        if (in.is_open()) {
-            in.seekg(0, std::ios_base::end);
-            result.resize(in.tellg());
-            in.seekg(0, std::ios_base::beg);
-            in.read(&result[0], result.size());
-        } else {
-            CORE_ERROR_LOG("Shader file can't be opened {0}", path);
-        }
-        return result;
-    }
 
     std::unordered_map<GLenum, std::string> OpenGLShader::PreProcess(const std::string& src) {
 
         std::unordered_map<GLenum, std::string> shaderSources;
 
-        const char* typeToken  = "#type";
-        size_t typeTokenLength = strlen(typeToken);
-        size_t pos             = src.find(typeToken, 0); // Start of shader type declaration line
-        while (pos != std::string::npos) {
-            size_t eol = src.find_first_of("\r\n", pos); // End of shader type declaration line
-            CORE_ASSERT_LOG((eol != std::string::npos), "Syntax error");
-            size_t begin     = pos + typeTokenLength + 1; // Start of shader type name (after "#type " keyword)
-            std::string type = src.substr(begin, eol - begin);
-            CORE_ASSERT_LOG(ShaderTypeFromString(type), "Invalid shader type specified");
+        size_t token_length = strlen(k_shader_type_token);
+        size_t token_pos    = src.find(k_shader_type_token);
 
-            size_t nextLinePos =
-                src.find_first_not_of("\r\n", eol); // Start of shader code after shader type declaration line
-            CORE_ASSERT_LOG((nextLinePos != std::string::npos), "Syntax error");
-            pos = src.find(typeToken, nextLinePos); // Start of next shader type declaration line
+        while (token_pos != std::string::npos) {
+            size_t token_eol = src.find_first_of("\r\n", token_pos); // find end of line
+            CORE_ASSERT_LOG((token_eol != std::string::npos), "Syntax error");
 
-            shaderSources[ShaderTypeFromString(type)] =
-                (pos == std::string::npos) ? src.substr(nextLinePos) : src.substr(nextLinePos, pos - nextLinePos);
+            size_t shader_type_begin = token_pos + token_length + 1; // pos of beginning shader type
+            std::string shader_type  = src.substr(shader_type_begin, token_eol - shader_type_begin);
+            CORE_ASSERT_LOG(ShaderTypeFromString(shader_type), "Invalid shader type specified");
+
+            size_t shade_body_begin =
+                src.find_first_not_of("\r\n", token_eol); // Start of shader code after shader type declaration line
+            CORE_ASSERT_LOG((shade_body_begin != std::string::npos), "Syntax error");
+            token_pos = src.find(k_shader_type_token, shade_body_begin); // find new token pos
+
+            shaderSources[ShaderTypeFromString(shader_type)] =
+                (token_pos == std::string::npos) ? src.substr(shade_body_begin)
+                                                 : src.substr(shade_body_begin, token_pos - shade_body_begin);
         }
 
         return shaderSources;
@@ -88,69 +61,69 @@ namespace Engine {
 
     void OpenGLShader::Compile(std::unordered_map<GLenum, std::string>& shaders) {
         m_renderer_id = glCreateProgram();
-        CORE_ASSERT_LOG((shaders.size() >= 2), "too few shaders");
-        std::array<GLuint, 2> shaders_id;
-        uint8_t index{0};
-        for (auto src_shader : shaders) {
-            GLenum type            = src_shader.first;
-            const std::string& src = src_shader.second;
 
-            GLuint shader = glCreateShader(type);
+        CORE_ASSERT_LOG((shaders.size() >= k_shader_count_at_least), "Too few shaders. Expected at least {0}",
+            k_shader_count_at_least);
+        std::vector<GLuint> shader_ids(k_shader_count_at_least);
 
-            const GLchar* source = (const GLchar*) src.c_str();
-            glShaderSource(shader, 1, &source, 0);
-            glCompileShader(shader);
+        for (auto& shader : shaders) {
+            GLenum type            = shader.first;
+            const std::string& src = shader.second;
 
-            GLint isCompiled = 0;
-            glGetShaderiv(shader, GL_COMPILE_STATUS, &isCompiled);
-            if (isCompiled == GL_FALSE) {
+            GLuint shader_id = glCreateShader(type);
+
+            const GLchar* source = static_cast<const GLchar*>(src.c_str());
+            glShaderSource(shader_id, 1, &source, nullptr);
+            glCompileShader(shader_id);
+
+            GLint compile_status;
+            glGetShaderiv(shader_id, GL_COMPILE_STATUS, &compile_status);
+            if (compile_status == GL_FALSE) {
                 GLint maxLength = 0;
-                glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &maxLength);
+                glGetShaderiv(shader_id, GL_INFO_LOG_LENGTH, &maxLength);
 
                 // The maxLength includes the NULL character
-                std::vector<GLchar> infoLog(maxLength);
-                glGetShaderInfoLog(shader, maxLength, &maxLength, &infoLog[0]);
+                std::vector<GLchar> info_log(maxLength);
+                glGetShaderInfoLog(shader_id, maxLength, &maxLength, &info_log[0]);
 
                 // We don't need the shader anymore.
-                glDeleteShader(shader);
+                glDeleteShader(shader_id);
 
-                CORE_ERROR_LOG("Shader doesn't compile");
-                CORE_ERROR_LOG(infoLog.data());
-                CORE_WARN_LOG(src);
-                ASSERT(false);
+                CORE_ERROR_LOG("Failed to compile shader");
+                CORE_ERROR_LOG(info_log.data());
             }
-            glAttachShader(m_renderer_id, shader);
-            shaders_id[index++] = shader;
+
+            glAttachShader(m_renderer_id, shader_id);
+            shader_ids.push_back(shader_id);
         }
 
         glLinkProgram(m_renderer_id);
-
-        GLint isLinked = 0;
-        glGetProgramiv(m_renderer_id, GL_LINK_STATUS, (int*) &isLinked);
-        if (isLinked == GL_FALSE) {
+        int link_status;
+        glGetProgramiv(m_renderer_id, GL_LINK_STATUS, &link_status);
+        if (link_status != GL_TRUE) {
             GLint maxLength = 0;
             glGetProgramiv(m_renderer_id, GL_INFO_LOG_LENGTH, &maxLength);
 
-            // The maxLength includes the NULL character
-            std::vector<GLchar> infoLog(maxLength);
-            glGetProgramInfoLog(m_renderer_id, maxLength, &maxLength, &infoLog[0]);
+            std::vector<GLchar> info_log(maxLength);
+            glGetProgramInfoLog(m_renderer_id, maxLength, &maxLength, &info_log[0]);
 
-            // We don't need the program anymore.
-            glDeleteProgram(m_renderer_id);
-            // Don't leak shaders either.
-            for (auto shader_id : shaders_id) {
-                glDeleteShader(shader_id);
-            }
-
-            CORE_ERROR_LOG("Shader program doesn't linked");
-            CORE_ERROR_LOG(infoLog.data());
-            ASSERT(false);
+            CORE_ERROR_LOG("Failed to link shader");
+            CORE_ERROR_LOG(info_log.data());
         }
 
-        for (auto shader_id : shaders_id) {
-            glDetachShader(m_renderer_id, shader_id);
+        for (auto& shader_id : shader_ids) {
+            glDeleteShader(shader_id);
         }
     }
+
+    void OpenGLShader::Bind() {
+        glUseProgram(m_renderer_id);
+    }
+
+    void OpenGLShader::UnBind() {
+        glUseProgram(0);
+    }
+
 
     void OpenGLShader::UploadUniform(const std::string& name, float value) {
         ASSERT(m_renderer_id);
@@ -185,34 +158,6 @@ namespace Engine {
             CORE_WARN_LOG("Uniform {0} not found", name);
         }
         glUniform1iv(location, count, value);
-    }
-
-    void OpenGLShader::Bind() const {
-
-
-        glUseProgram(m_renderer_id);
-    }
-
-    void OpenGLShader::SetMat4(const std::string& name, const glm::mat4& mat) {
-
-        UploadUniform(name, mat);
-    }
-
-    void OpenGLShader::SetVec4(const std::string& name, const glm::vec4& vec) {
-
-
-        UploadUniform(name, vec);
-    }
-
-    void OpenGLShader::SetInt(const std::string& name, const int value) {
-
-
-        UploadUniform(name, value);
-    }
-
-    void OpenGLShader::SetIntArray(const std::string& name, const int* value, uint32_t count) {
-
-        UploadUniform(name, value, count);
     }
 
 } // namespace Engine
