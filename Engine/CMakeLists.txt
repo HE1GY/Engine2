@@ -20,9 +20,8 @@ set(ENGINE_SRC
         "src/Engine/LowAPI/Input/Input.h"
         "src/Platform/Windows/InputWindows.cpp"
         "src/Engine/Core/Time.h"
-        "src/Engine/Core/Time.cpp"
-        "src/Engine/Layer/SceneLayer.cpp"
-        "src/Engine/Layer/SceneLayer.h"
+        "src/Engine/Scene/SceneLayer.cpp"
+        "src/Engine/Scene/SceneLayer.h"
         "src/Engine/LowAPI/Renderer/Buffer.h"
         "src/Engine/LowAPI/Renderer/Renderer2D.cpp"
         "src/Engine/LowAPI/Renderer/Renderer2D.h"
@@ -41,7 +40,32 @@ set(ENGINE_SRC
         "src/Platform/OpenGL/OpenGLObjectFactory.cpp"
         "src/Platform/OpenGL/OpenGLObjectFactory.h"
         "src/Engine/Utils/FileHandler.cpp"
-        "src/Engine/Utils/FileHandler.h" src/Engine/Utils/ImageLoader.cpp src/Engine/Utils/ImageLoader.h)
+        "src/Engine/Utils/FileHandler.h"
+        "src/Engine/Utils/ImageLoader.cpp"
+        "src/Engine/Utils/ImageLoader.h"
+        "src/Engine/Scene/Components.h"
+        "src/Engine/Scene/Components.h"
+        "src/Engine/Math/Vector.cpp"
+        "src/Engine/Math/Vector.h"
+        "src/Engine/Math/Vector.h"
+        "src/Engine/Math/Vector.cpp"
+        "src/Engine/Math/Matrix.cpp"
+        "src/Engine/Math/Matrix.h"
+        "src/Engine/Math/Math.h"
+        src/Engine/ECS/Components.h
+        src/Engine/ECS/Coordinator.cpp
+        src/Engine/ECS/Coordinator.h
+        src/Engine/ECS/Entity.h
+        src/Engine/ECS/System.h
+        src/Engine/Scene/Sys/Renderer2DSystem.h
+        src/Engine/Scene/Sys/Renderer2DSystem.cpp
+        src/Engine/Scene/Sys/MoveSystem.h
+        src/Engine/Scene/Sys/MoveSystem.cpp
+        src/Engine/ECS/Defines.h
+        src/Engine/Scene/Sys/GameLogicSystem.h
+        src/Engine/Scene/Sys/GameLogicSystem.cpp
+        src/Engine/Scene/Sys/CollisionSystem.cpp
+        src/Engine/Scene/Sys/CollisionSystem.h)
 
 #target
 add_library(${ENGINE_NAME} STATIC ${ENGINE_SRC})

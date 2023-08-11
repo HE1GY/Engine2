@@ -36,7 +36,7 @@ namespace Engine {
 
         switch (severity) {
         case GL_DEBUG_SEVERITY_HIGH:
-            CORE_ERROR_LOG(ss.str(), false);
+            CORE_ERROR_LOG(ss.str());
             break;
         case GL_DEBUG_SEVERITY_MEDIUM:
             CORE_WARN_LOG(ss.str());

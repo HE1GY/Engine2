@@ -1,8 +1,9 @@
 #include "Application.h"
 
-#include "Engine/Layer/SceneLayer.h"
 #include "Engine/LowAPI/Input/Input.h"
 #include "Engine/LowAPI/Renderer/Renderer2D.h"
+#include "Engine/LowAPI/Renderer/RendererCommand.h"
+#include "Engine/Scene/SceneLayer.h"
 #include "Time.h"
 
 
@@ -21,6 +22,8 @@ namespace Engine {
     void Application::Run() {
         // SubscribeEvents in run because to subscribe on events game layers
         SubscribeEvents();
+        m_window_events.onWindowResized.Invoke({(int) m_window->GetWidth(), (int) m_window->GetHeight()}); // first
+                                                                                                           // event
 
         float last_frame_time = m_window->GetCurrentTime();
         while (m_is_running) {
@@ -41,10 +44,13 @@ namespace Engine {
         m_window_events.onWindowResized.AddCallback(MEM_FN_TO_LMD(OnWindowsResized));
     }
 
-    void Application::OnWindowClosed() { m_is_running = false; }
+    void Application::OnWindowClosed() {
+        m_is_running = false;
+    }
 
     void Application::OnWindowsResized(const WindowResized& wr) {
-        // CORE_TRACE_LOG("{0} , {1}", wr.height, wr.width);
+        RendererCommand::SetViewport(0, 0, wr.width, wr.height);
+        Renderer2D::OnAspectRationChange(static_cast<float>(wr.width) / wr.height);
     }
 
     void Application::PushLayer(Ref<Layer> layer) {

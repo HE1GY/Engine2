@@ -4,6 +4,6 @@
 namespace Engine {
     class Time {
     public:
-        static float s_delta_time;
+        inline static float s_delta_time;
     };
 } // namespace Engine

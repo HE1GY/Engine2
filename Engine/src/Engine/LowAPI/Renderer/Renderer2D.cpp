@@ -7,6 +7,8 @@
 #include "Shader.h"
 #include "VertexArray.h"
 
+#include "glm/ext/matrix_clip_space.hpp"
+
 
 namespace Engine {
     struct Renderer2DData {
@@ -15,6 +17,8 @@ namespace Engine {
         Ref<VertexArray> vao;
         Ref<Texture> texture;
         Ref<Texture> texture2;
+
+        float aspect_ratio;
     };
 
     Renderer2DData Renderer2D::data;
@@ -38,20 +42,8 @@ namespace Engine {
         data.shader->Bind();
 
         data.shader->UploadUniform("u_texture", 0);
-        data.shader->UploadUniform("u_texture2", 1);
-
-
-        Texture::Properties pr;
-        pr.use_mipmaps = false;
-        pr.wrapS       = Texture::Wrapping::Repeat;
-        pr.wrapT       = Texture::Wrapping::Repeat;
-        pr.min         = Texture::Filtering::Nearest;
-        pr.mag         = Texture::Filtering::Nearest;
-
-        data.texture = data.factory->CreateTexture(pr, "Game/assets/pexels-pixabay-268533.jpg");
+        data.texture = data.factory->CreateTexture();
         data.texture->Bind(0);
-        data.texture2 = data.factory->CreateTexture(pr, "Game/assets/awesomeface.png");
-        data.texture2->Bind(1);
 
         data.vao = data.factory->CreateVertexArray();
         data.vao->Bind();
@@ -75,9 +67,25 @@ namespace Engine {
     void Renderer2D::ShutDown() {
     }
 
-    void Renderer2D::DrawQuad(const glm::vec4& color) {
+    void Renderer2D::DrawQuad(const glm::mat4& transform, const glm::vec4& color, const Ref<Texture>& texture) {
+
         data.shader->Bind();
+        data.shader->UploadUniform(
+            "u_projection_view", glm::ortho(-data.aspect_ratio, data.aspect_ratio, -1.0f, 1.0f, -1.0f, 1.0f));
+        data.shader->UploadUniform("u_transform", transform);
+        data.shader->UploadUniform("u_color", color);
+
+        texture->Bind(0);
         data.vao->Bind();
+
         RendererCommand::DrawIndex(data.vao);
+    }
+
+    Ref<Texture> Renderer2D::CreateTexture(const std::string& path, const Texture::Properties& porp) {
+        return data.factory->CreateTexture(porp, path);
+    }
+
+    void Renderer2D::OnAspectRationChange(float aspect_ration) {
+        data.aspect_ratio = aspect_ration;
     }
 } // namespace Engine

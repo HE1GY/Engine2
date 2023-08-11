@@ -5,7 +5,6 @@
 #include "stb_image.h"
 #include <glad/glad.h>
 
-
 namespace Engine {
     static GLint WrappingToOpenGL(Texture::Wrapping wrapping) {
         switch (wrapping) {
@@ -13,13 +12,13 @@ namespace Engine {
             return GL_REPEAT;
         case Texture::Wrapping::MirroredRepeat:
             return GL_MIRRORED_REPEAT;
-            break;
+
         case Texture::Wrapping::ClampToEdge:
             return GL_CLAMP_TO_EDGE;
-            break;
+
         case Texture::Wrapping::ClampToBorder:
             return GL_CLAMP_TO_BORDER;
-            break;
+
         default:
             CORE_ASSERT_LOG(false, "Unknown wrapping type");
         }

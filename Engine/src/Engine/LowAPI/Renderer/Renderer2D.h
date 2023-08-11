@@ -1,6 +1,10 @@
 #pragma once
 
 
+#include "Texture.h"
+#include <string_view>
+
+#include "glm/fwd.hpp"
 #include "glm/vec4.hpp"
 
 namespace Engine {
@@ -25,8 +29,12 @@ namespace Engine {
 
         // static void FlushLine();
 
-        static void DrawQuad(const glm::vec4& color);
+        static void DrawQuad(const glm::mat4& transform, const glm::vec4& color, const Ref<Texture>& texture);
 
+
+        static Ref<Texture> CreateTexture(const std::string& path, const Texture::Properties& porp = {});
+
+        static void OnAspectRationChange(float aspect_ration);
 
         // static Statistics GetStats();
 

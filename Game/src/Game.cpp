@@ -8,8 +8,7 @@ namespace Game {
      */
     class Game : public Engine::Application {
     public:
-        Game() : Engine::Application({600, 400, "Game"}) {
-            INFO_LOG("Start game");
+        Game() : Engine::Application({800, 800, "Game"}) {
             PushLayer(Engine::CreateRef<GameLayer>("GameLayer"));
         }
 
@@ -21,4 +20,6 @@ namespace Game {
  * Method substitutes custom app fo Engine framework
  * @return custom app
  */
-Engine::Application* CreateApplication() { return new Game::Game(); }
+Engine::Application* CreateApplication() {
+    return new Game::Game();
+}
